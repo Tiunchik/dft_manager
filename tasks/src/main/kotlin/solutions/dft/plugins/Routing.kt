@@ -5,9 +5,12 @@ import io.ktor.server.response.*
 import io.ktor.server.application.*
 
 fun Application.configureRouting() {
+    val something = environment.config.propertyOrNull("ktor.application.modules")?.getString()
     routing {
         get("/") {
-            call.respondText("Hello World!")
+
+            println("route() : /")
+            call.respondText("Hello World! + $something")
         }
     }
 }

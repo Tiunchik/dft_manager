@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+
+  dft-postgres:
+    container_name: dft-postgres
+    image: postgres:15
+    volumes:
+      - ./start-db-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_DB=dft-tasks
+
+#  dft-tasks-liquibase:
+#    # Image to be pulled from Docker Hub
+#    image: liquibase:4.19.0
+#    # Name of the container
+#    container_name: dft-tasks-postgres-liquibase
+#    # Setting depends_on to PostgreSQL container to wait till the service is ready to accept connections
+#    depends_on:
+#      dft-tasks-postgres:
+##        condition: service_healthy
+#        condition: service_started
+#    # Volume to add the liquibase collection of scripts
+#    volumes:
+#      - .././db/liquibase/changeLog/:/liquibase/changelog/
+#    # Command to run the liquibase update service
+#    command: --defaults-file=/liquibase/changelog/liquibase.properties update
+

@@ -18,11 +18,11 @@ class UserService(private val database: Database) {
         override val primaryKey = PrimaryKey(id)
     }
 
-    init {
-        transaction(database) {
-            SchemaUtils.create(Users)
-        }
-    }
+//    init {
+//        transaction(database) {
+//            SchemaUtils.create(Users)
+//        }
+//    }
 
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }

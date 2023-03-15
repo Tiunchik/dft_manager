@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+#      file: "db/liquibase/changeLog/changeset-1.yaml"
+#      file: "tasks/src/main/resources/db/liquibase/changeLog/changeset-1.yaml"
+      file: "tasks/src/main/resources/db/liquibase/changeLog/changeset-1.sql"

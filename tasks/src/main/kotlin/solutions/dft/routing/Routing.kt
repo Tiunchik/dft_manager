@@ -1,4 +1,4 @@
-package solutions.dft.plugins
+package solutions.dft.routing
 
 import io.ktor.server.routing.*
 import io.ktor.server.response.*

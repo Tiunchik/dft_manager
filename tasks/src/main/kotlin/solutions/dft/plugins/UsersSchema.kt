@@ -9,14 +9,15 @@ import org.jetbrains.exposed.sql.*
 
 @Serializable
 data class User(val name: String, val age: Int)
-class UserService(private val database: Database) {
-    object Users : Table() {
-        val id = integer("id").autoIncrement()
-        val name = varchar("name", length = 50)
-        val age = integer("age")
+object Users : Table() {
+    val id = integer("id").autoIncrement()
+    val name = varchar("name", length = 50)
+    val age = integer("age")
 
-        override val primaryKey = PrimaryKey(id)
-    }
+    override val primaryKey = PrimaryKey(id)
+}
+
+class UserService(private val database: Database) {
 
 //    init {
 //        transaction(database) {

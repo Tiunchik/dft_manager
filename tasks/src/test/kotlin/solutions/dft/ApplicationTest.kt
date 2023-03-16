@@ -5,7 +5,7 @@ import io.ktor.client.statement.*
 import io.ktor.server.testing.*
 import kotlin.test.*
 import io.ktor.http.*
-import solutions.dft.plugins.*
+import solutions.dft.routing.configureRouting
 
 class ApplicationTest {
     @Test

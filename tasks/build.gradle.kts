@@ -10,10 +10,12 @@ val koin_ksp_version: String by project
 val psql_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.7.21"
     id("io.ktor.plugin") version "2.2.4"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.21"
     id("org.liquibase.gradle") version "2.2.0"
+
+    id("com.google.devtools.ksp") version "1.7.21-1.0.8" //Config for Koin annotations
 }
 
 group = "solutions.dft"
@@ -29,9 +31,16 @@ application {
 
 repositories {
     mavenCentral()
+    mavenLocal()
+}
+
+sourceSets.main {
+    java.srcDir("build/generated/ksp/main/kotlin") //Config for Koin annotations
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
+
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-openapi:$ktor_version")
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktor_version")
@@ -48,9 +57,10 @@ dependencies {
     implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
+    implementation ("io.insert-koin:koin-core:$koin_version") //Base Koin package, needed for Koin annotations
+    implementation ("io.insert-koin:koin-annotations:$koin_ksp_version") //Config for Koin annotations
+    ksp ("io.insert-koin:koin-ksp-compiler:$koin_ksp_version") //Config for Koin annotations
 
-    implementation("io.insert-koin:koin-ktor:$koin_ktor")
-    implementation("io.insert-koin:koin-logger-slf4j:$koin_ktor")
 
     liquibaseRuntime("org.liquibase:liquibase-core:4.20.0")
     liquibaseRuntime("org.liquibase:liquibase-gradle-plugin:2.2.0")

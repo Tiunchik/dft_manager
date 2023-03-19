@@ -12,7 +12,8 @@ import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.koin.ktor.ext.inject
+import org.koin.core.annotation.Single
+import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDateTime
 
 
@@ -92,6 +93,7 @@ fun runTest() {
 //
 //}
 
+@Single
 class TaskRepo {
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }
@@ -111,8 +113,8 @@ class TaskRepo {
 }
 
 
-fun Application.tasksRoutes() {
-    val taskRepo: TaskRepo by inject()
+fun Application.configureTasksRoutes() {
+    val taskRepo: TaskRepo by inject(TaskRepo::class.java)
     routing {
         get("/tasks/") {
             call.respond(HttpStatusCode.OK, taskRepo.getAllTasks())

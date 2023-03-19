@@ -5,11 +5,11 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
-import org.koin.ktor.ext.inject
+import org.koin.java.KoinJavaComponent.inject
 
 fun Application.configureDatabases() {
 
-    val userService : UserService by inject()
+    val userService : UserService by inject(UserService::class.java)
     routing {
         // Create user
         post("/users") {

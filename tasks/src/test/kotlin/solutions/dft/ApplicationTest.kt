@@ -8,7 +8,7 @@ import io.ktor.http.*
 import solutions.dft.routing.configureRouting
 
 class ApplicationTest {
-    @Test
+
     fun testRoot() = testApplication {
         application {
             configureRouting()

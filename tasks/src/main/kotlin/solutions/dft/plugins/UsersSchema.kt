@@ -1,11 +1,12 @@
 package solutions.dft.plugins
 
+import kotlinx.coroutines.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import kotlinx.serialization.Serializable
-import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.*
+import org.koin.core.annotation.Single
 
 @Serializable
 data class User(val name: String, val age: Int)
@@ -17,13 +18,20 @@ object Users : Table() {
     override val primaryKey = PrimaryKey(id)
 }
 
+@Single
 class UserService(private val database: Database) {
 
-//    init {
-//        transaction(database) {
-//            SchemaUtils.create(Users)
-//        }
-//    }
+    init {
+        transaction(database) {
+            SchemaUtils.create(Users)
+        }
+        runBlocking {
+            launch {
+                delay(1000)
+                create(User("Test", 1))
+            }
+        }
+    }
 
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }

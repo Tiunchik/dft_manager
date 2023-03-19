@@ -1,3 +1,5 @@
 databaseChangeLog:
+#  - include:
+#      file: "tasks/src/main/resources/db/liquibase/changeLog/changeset-1.sql"
   - include:
-      file: "tasks/src/main/resources/db/liquibase/changeLog/changeset-1.sql"
+      file: "tasks/src/main/resources/db/liquibase/changeLog/changeset-1-tasks-table.sql"

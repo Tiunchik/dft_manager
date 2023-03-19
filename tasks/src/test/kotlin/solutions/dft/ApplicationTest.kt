@@ -5,13 +5,13 @@ import io.ktor.client.statement.*
 import io.ktor.server.testing.*
 import kotlin.test.*
 import io.ktor.http.*
-import solutions.dft.routing.configureRouting
+import solutions.dft.routing.configureBaseRouting
 
 class ApplicationTest {
 
     fun testRoot() = testApplication {
         application {
-            configureRouting()
+            configureBaseRouting()
         }
         client.get("/").apply {
             assertEquals(HttpStatusCode.OK, status)

@@ -1,4 +1,4 @@
-package solutions.dft.plugins
+package solutions.dft.config
 
 import io.micrometer.prometheus.*
 import io.ktor.server.metrics.micrometer.*

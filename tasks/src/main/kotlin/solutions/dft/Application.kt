@@ -5,10 +5,13 @@ import io.ktor.server.engine.*
 import io.ktor.server.cio.*
 import org.koin.core.context.startKoin
 import solutions.dft.plugins.*
-import solutions.dft.routing.configureRouting
+import solutions.dft.routing.configureBaseRouting
 import org.koin.ksp.generated.*
+import solutions.dft.config.configureOpenApi
+import solutions.dft.config.configureMonitoring
+import solutions.dft.config.configureSerialization
+import solutions.dft.routing.configureTasksRoutes
 
-import solutions.dft.temp.configureTasksRoutes
 
 fun main() {
     startKoin {
@@ -21,11 +24,12 @@ fun main() {
 }
 
 fun Application.main() {
-    configureHTTP()
+    configureOpenApi()
     configureMonitoring()
     configureSerialization()
-    configureDatabases()
-    configureRouting()
 
+    configureUserRouting()
+    configureBaseRouting()
     configureTasksRoutes()
+
 }

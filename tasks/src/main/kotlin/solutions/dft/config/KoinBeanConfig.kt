@@ -1,4 +1,4 @@
-package solutions.dft.config.koin
+package solutions.dft.config
 
 import org.jetbrains.exposed.sql.Database
 import org.koin.core.annotation.Single

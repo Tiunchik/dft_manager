@@ -7,7 +7,7 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import org.koin.java.KoinJavaComponent.get
 
-fun Application.configureDatabases() {
+fun Application.configureUserRouting() {
 
     val userService: UserService = get(UserService::class.java)
     routing {

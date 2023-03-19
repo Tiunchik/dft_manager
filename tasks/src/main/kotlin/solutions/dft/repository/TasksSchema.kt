@@ -1,9 +1,5 @@
 package solutions.dft.temp
 
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 import kotlinx.coroutines.Dispatchers import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -13,7 +9,6 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.annotation.Single
-import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDateTime
 
 
@@ -112,12 +107,3 @@ class TaskRepo {
     }
 }
 
-
-fun Application.configureTasksRoutes() {
-    val taskRepo: TaskRepo by inject(TaskRepo::class.java)
-    routing {
-        get("/tasks/") {
-            call.respond(HttpStatusCode.OK, taskRepo.getAllTasks())
-        }
-    }
-}

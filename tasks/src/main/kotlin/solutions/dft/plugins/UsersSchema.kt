@@ -18,7 +18,7 @@ object Users : Table() {
     override val primaryKey = PrimaryKey(id)
 }
 
-@Single
+@Single(createdAtStart = true)
 class UserService(private val database: Database) {
 
     init {
@@ -34,7 +34,7 @@ class UserService(private val database: Database) {
     }
 
     suspend fun <T> dbQuery(block: suspend () -> T): T =
-        newSuspendedTransaction(Dispatchers.IO) { block() }
+        newSuspendedTransaction(Dispatchers.IO, database) { block() }
 
     suspend fun create(user: User): Int = dbQuery {
         Users.insert {

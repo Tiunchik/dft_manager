@@ -44,6 +44,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-openapi:$ktor_version")
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-config-yaml:$ktor_version") //For using yaml file for configuration
     implementation("io.micrometer:micrometer-registry-prometheus:$prometeus_version")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktor_version")
@@ -57,6 +58,8 @@ dependencies {
     implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
+    implementation ("io.insert-koin:koin-ktor:$koin_ktor") //To use install in App module for koin
+    implementation ("io.insert-koin:koin-logger-slf4j:$koin_ktor") //To use slf4logger in install block in App module for koin
     implementation ("io.insert-koin:koin-core:$koin_version") //Base Koin package, needed for Koin annotations
     implementation ("io.insert-koin:koin-annotations:$koin_ksp_version") //Config for Koin annotations
     ksp ("io.insert-koin:koin-ksp-compiler:$koin_ksp_version") //Config for Koin annotations

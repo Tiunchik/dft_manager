@@ -1,4 +1,4 @@
-package solutions.dft.temp
+package solutions.dft.repository
 
 import kotlinx.coroutines.Dispatchers import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass

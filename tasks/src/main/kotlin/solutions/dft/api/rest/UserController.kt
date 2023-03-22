@@ -7,8 +7,8 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import org.koin.core.annotation.Single
 import org.koin.ktor.ext.get
-import solutions.dft.plugins.User
-import solutions.dft.plugins.UserService
+import solutions.dft.repository.User
+import solutions.dft.repository.UserService
 
 @Single(createdAtStart = true)
 class UserController(private val application: Application) {
@@ -16,6 +16,11 @@ class UserController(private val application: Application) {
 
     init {
         application.routing {
+            // Get All users
+            get("/users") {
+                val users = userService.readAll()
+                call.respond(HttpStatusCode.OK,users)
+            }
             // Create user
             post("/users") {
                 val user = call.receive<User>()

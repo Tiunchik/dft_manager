@@ -1,4 +1,4 @@
-package solutions.dft.plugins
+package solutions.dft.repository
 
 import kotlinx.coroutines.*
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -91,6 +91,13 @@ class UserService(private val database: Database) {
             it[name] = user.name
             it[age] = user.age
         }[Users.id]
+    }
+
+    suspend fun readAll(): List<User> {
+        return dbQuery {
+            Users.selectAll()
+                .map { User(it[Users.name], it[Users.age]) }
+        }
     }
 
     suspend fun read(id: Int): User? {

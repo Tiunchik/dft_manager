@@ -2,6 +2,10 @@ package solutions.dft
 
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
+import solutions.dft.config.configureMonitoring
+import solutions.dft.config.configureOpenApi
+import solutions.dft.config.configureSerialization
+import solutions.dft.config.configureKoin
 import io.ktor.server.engine.*
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.Database
@@ -19,36 +23,18 @@ import solutions.dft.routes.tasksRoutes
 import solutions.dft.schema.*
 
 
-fun main() {
-    embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
-}
 
-// http://127.0.0.1:8080/tasks/
-fun Application.module() {
-    configureHTTP()
+fun main(args: Array<String>): Unit = EngineMain.main(args)
+
+fun Application.main() {
+    configureKoin()
+    configureOpenApi()
     configureMonitoring()
     configureSerialization()
-//    configureDatabases()
-//    configureRouting()
 
-
-    tasksRoutes()
+//    tasksRoutes()
     showRequiredMigration()
     println("http://127.0.0.1:8080/tasks/")
-}
-
-// Global
-public object Beans {
-    val database = Database.connect(
-        url = "jdbc:postgresql://localhost:5432/tasks",
-//        url = "jdbc:postgresql://localhost:5432/postgres",
-        driver = "org.postgresql.Driver",
-        user = "postgres",
-        password = "postgres"
-    )
-    val taskRepo = TaskRepo()
-    val taskConverter: TaskConverter by lazy { Mappers.getMapper(TaskConverter::class.java) }
 }
 
 // По идеи это Дешёвый RuntimeException т.к. не собирает StackTrace
@@ -62,7 +48,7 @@ interface TaskConverter {
 
     @InheritInverseConfiguration
     @Mapping(target = "id", expression = "java(new org.jetbrains.exposed.dao.id.EntityID(" +
-                "task.getCode(), solutions.dft.schema.Tasks.INSTANCE))")
+            "task.getCode(), solutions.dft.schema.Tasks.INSTANCE))")
     fun convertToModel(task: Task): TaskEntity
 
     @InheritInverseConfiguration

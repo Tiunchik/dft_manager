@@ -1,4 +1,4 @@
-package solutions.dft.plugins
+package solutions.dft.config
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

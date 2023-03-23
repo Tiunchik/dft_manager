@@ -4,6 +4,8 @@ val logback_version: String by project
 val prometeus_version: String by project
 val exposed_version: String by project
 val h2_version: String by project
+val postgres_version: String by project
+val kotlinx_coroutines: String by project
 
 plugins {
     kotlin("jvm") version "1.8.10"
@@ -33,55 +35,48 @@ dependencies {
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-openapi:$ktor_version")
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktor_version")
-    implementation("io.micrometer:micrometer-registry-prometheus:$prometeus_version")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
-    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
+
+    implementation("io.micrometer:micrometer-registry-prometheus:$prometeus_version")
+    implementation("ch.qos.logback:logback-classic:$logback_version")
+
+    implementation("org.postgresql:postgresql:$postgres_version")
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
-//    implementation("com.h2database:h2:$h2_version")
-    implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("org.postgresql:postgresql:42.5.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+//    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0") // todo - не у верен что нужно, пускай будет как комент
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$kotlinx_coroutines")
 
-
+//    testImplementation("com.h2database:h2:$h2_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
-
-
     liquibaseRuntime("org.liquibase:liquibase-core:4.20.0")
     liquibaseRuntime("org.liquibase:liquibase-gradle-plugin:2.2.0")
-    liquibaseRuntime("info.picocli:picocli:4.6.3")
+    liquibaseRuntime("info.picocli:picocli:4.7.1")
 
-    liquibaseRuntime("ch.qos.logback:logback-core:1.2.9")
-    liquibaseRuntime("ch.qos.logback:logback-classic:1.2.9")
-    liquibaseRuntime("org.postgresql:postgresql:42.5.4")
+    liquibaseRuntime("ch.qos.logback:logback-core:$logback_version")
+    liquibaseRuntime("ch.qos.logback:logback-classic:$logback_version")
+    liquibaseRuntime("org.postgresql:postgresql:$postgres_version")
 }
 
 liquibase {
-//    runList = "lq"
-    activities.register("tasks") {
+    activities.register("tasks-liquibase") {
         arguments = mapOf(
             "logLevel" to "info",
+            // todo - я хз, как оно будет работать из jar а контуре... Пока в IDEA работает
             "changeLogFile" to "tasks/src/main/resources/db/liquibase/change-log-master.yaml",
             "url" to "jdbc:postgresql://localhost:5432/tasks",
+//            "url" to "jdbc:postgresql://localhost:5432/postgres",
             "username" to "postgres",
             "password" to "postgres",
         )
     }
 }
-//sourceSets {
-//    main { java { srcDirs(
-////        "src/main/java",
-//        "build/generated/source/apt/main",
-//        "build/generated/sources/annotationProcessor/java/main")}}
-//}

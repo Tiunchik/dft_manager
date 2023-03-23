@@ -1,5 +1,4 @@
 databaseChangeLog:
-#  - include:
-#      file: "tasks/src/main/resources/db/liquibase/changeLog/changeset-1.sql"
   - include:
-      file: "tasks/src/main/resources/db/liquibase/changeLog/changeset-1-tasks-table.sql"
+      file: "./changeLog/tasks-v1.sql"
+      relativeToChangelogFile: true

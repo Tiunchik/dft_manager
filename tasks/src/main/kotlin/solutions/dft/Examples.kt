@@ -1,17 +1,21 @@
 package solutions.dft
 
-import solutions.dft.schema.TaskEntity
-import solutions.dft.schema.Tasks
-import solutions.dft.schema.sql
+import io.ktor.server.application.*
+import org.koin.core.annotation.Single
+import org.koin.ktor.ext.get
+import solutions.dft.repository.TaskConverter
+import solutions.dft.repository.TaskEntity
 
-suspend fun transactionDAO_one() {
-    sql { TaskEntity.all().map(Beans.taskConverter::convertToDto) }
-    sql { TaskEntity.all() }.map(Beans.taskConverter::convertToDto) // java.lang.IllegalStateException: No transaction in context.
-}
+@Single
+class Examples(application: Application) {
+    private val taskConverter: TaskConverter = application.get()
 
-fun showColumnsPath() {
+    suspend fun transactionDAO_one() {
+        // Correct
+        sql { TaskEntity.all().map(taskConverter::entityToModel) }
+        // java.lang.IllegalStateException: No transaction in context.
+        sql { TaskEntity.all() }.map(taskConverter::entityToModel)
 
-    println(Tasks.code)
-    println(Tasks.id)
-    println(Tasks.title)
+        // все действия с Entity должны быть внутри транзакции
+    }
 }

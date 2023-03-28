@@ -13,6 +13,10 @@ import org.mapstruct.InheritInverseConfiguration
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.MappingTarget
+import org.valiktor.Validator
+import org.valiktor.functions.hasSize
+import org.valiktor.validate
+import solutions.dft.tryValidate
 import java.time.LocalDateTime
 
 
@@ -58,6 +62,8 @@ enum class TaskPriority { THE_LOWEST, LOWER, MEDIUM, HIGHER, THE_HIGHEST }
  */
 class TODOForTask
 
+
+
 @Serializable data class TaskCreate(
     var title: String?,
     var content: String?,
@@ -67,7 +73,13 @@ class TODOForTask
     @Contextual var deadlineAt: LocalDateTime?,
     var statusId: Long?,
     var priority: TaskPriority?,
-)
+) {
+    init {
+        tryValidate(this) {
+            validate(TaskCreate::title).hasSize(1,5)
+        }
+    }
+}
 @Serializable data class TaskUpdate(
     var title: String? = null,
     var content: String? = null,

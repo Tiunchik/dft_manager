@@ -1,15 +1,21 @@
 package solutions.dft.repository
 
 import kotlinx.coroutines.*
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.*
 import org.koin.core.annotation.Single
+import org.valiktor.functions.hasSize
+import org.valiktor.validate
+
 
 @Serializable
-data class User(val name: String, val age: Int)
+data class User(
+    var name: String,
+    val age: Int
+) {}
+
 object Users : Table() {
     val id = integer("id").autoIncrement()
     val name = varchar("name", length = 50)

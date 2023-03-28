@@ -14,8 +14,8 @@ class KoinBeanConfig {
         url = "jdbc:postgresql://localhost:5432/tasks",
         driver = "org.postgresql.Driver",
         user = "postgres",
-        password = "postgres"
-//        password = "mysecretpassword"
+//        password = "postgres"
+        password = "mysecretpassword"
     )
 
     @Single fun taskConverter(): TaskConverter = Mappers.getMapper(TaskConverter::class.java)

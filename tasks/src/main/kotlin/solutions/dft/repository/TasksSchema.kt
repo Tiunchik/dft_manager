@@ -13,10 +13,9 @@ import org.mapstruct.InheritInverseConfiguration
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.MappingTarget
-import org.valiktor.Validator
-import org.valiktor.functions.hasSize
-import org.valiktor.validate
-import solutions.dft.tryValidate
+import org.valiktor.functions.isNotNull
+import solutions.dft.Validatable
+import solutions.dft.validation
 import java.time.LocalDateTime
 
 
@@ -63,33 +62,42 @@ enum class TaskPriority { THE_LOWEST, LOWER, MEDIUM, HIGHER, THE_HIGHEST }
 class TODOForTask
 
 
-
 @Serializable data class TaskCreate(
-    var title: String?,
-    var content: String?,
-    var creatorId: Long?,
-    var checkerId: Long?,
-    var executorId: Long?,
-    @Contextual var deadlineAt: LocalDateTime?,
-    var statusId: Long?,
-    var priority: TaskPriority?,
-) {
-    init {
-        tryValidate(this) {
-            validate(TaskCreate::title).hasSize(1,5)
-        }
-    }
-}
-@Serializable data class TaskUpdate(
     var title: String? = null,
     var content: String? = null,
-//    var creatorId: Long?,
+    var creatorId: Long? = null,
     var checkerId: Long? = null,
     var executorId: Long? = null,
     @Contextual var deadlineAt: LocalDateTime? = null,
     var statusId: Long? = null,
     var priority: TaskPriority? = null,
-)
+) : Validatable {
+    override fun validate() {
+        validation(this) {
+            validate(TaskCreate::title).isNotNull()
+            validate(TaskCreate::creatorId).isNotNull()
+            validate(TaskCreate::statusId).isNotNull()
+        }
+    }
+}
+
+@Serializable data class TaskUpdate(
+    var title: String? = null,
+    var content: String? = null,
+    var checkerId: Long? = null,
+    var executorId: Long? = null,
+    @Contextual var deadlineAt: LocalDateTime? = null,
+    var statusId: Long? = null,
+    var priority: TaskPriority? = null,
+) : Validatable {
+    override fun validate() {
+        validation(this) {
+            validate(TaskUpdate::title).isNotNull()
+            validate(TaskUpdate::statusId).isNotNull()
+            validate(TaskUpdate::priority).isNotNull()
+        }
+    }
+}
 
 @Serializable class Task {
     var code: String = "" // final
@@ -156,8 +164,10 @@ interface TaskConverter {
     fun entityToModel(taskEntity: TaskEntity): Task
 
     @InheritInverseConfiguration
-    @Mapping(target = "id", expression = "java(new org.jetbrains.exposed.dao.id.EntityID(" +
-            "task.getCode(), solutions.dft.repository.TaskTable.INSTANCE))")
+    @Mapping(
+        target = "id", expression = "java(new org.jetbrains.exposed.dao.id.EntityID(" +
+                "task.getCode(), solutions.dft.repository.TaskTable.INSTANCE))"
+    )
     fun modelToEntityWithId(task: Task): TaskEntity
 
     @InheritInverseConfiguration

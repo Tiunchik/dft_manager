@@ -2,7 +2,6 @@ package solutions.dft.api.rest
 
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -10,7 +9,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.update
 import org.koin.core.annotation.Single
 import org.koin.ktor.ext.get
-import solutions.dft.ValidateDtoException
+import solutions.dft.receiveAndValidate
 import solutions.dft.repository.*
 import solutions.dft.sql
 import java.time.LocalDateTime
@@ -26,11 +25,7 @@ class TaskController(application: Application) {
         application.routing {
 
             post(ROOT) {
-                val task = call.receive<TaskCreate>().apply {
-                    title ?: throw ValidateDtoException("field \"title\" is required, but not present")
-                    creatorId ?: throw ValidateDtoException("field \"creatorId\" is required, but not present")
-                    statusId ?: throw ValidateDtoException("field \"statusId\" is required, but not present")
-                }
+                val task = call.receiveAndValidate<TaskCreate>()
                 val code = abs(Random().nextInt()).toString().substring(0..5)
                 sql { TaskEntity.new(code) { taskConverter.createDtoToTargetEntityNoId(task, this) } }
                 call.respond(HttpStatusCode.Created, mapOf("code" to code))
@@ -38,7 +33,7 @@ class TaskController(application: Application) {
 
             get("$ROOT{code}") {
                 val code = call.parameters["code"]
-                    ?: throw ValidateDtoException("Required path variable \"code\", but not present")
+                    ?: throw IllegalStateException("Required path variable \"code\", but not present")
                 val task = sql { TaskEntity.findById(code) }
                 if (task != null) call.respond(HttpStatusCode.OK, taskConverter.entityToModel(task))
                 else call.respond(HttpStatusCode.NotFound)
@@ -50,8 +45,8 @@ class TaskController(application: Application) {
 
             put("$ROOT{code}") {
                 val code = call.parameters["code"]
-                    ?: throw ValidateDtoException("Required path variable \"code\", but not present")
-                val task = call.receive<TaskUpdate>()
+                    ?: throw IllegalStateException("Required path variable \"code\", but not present")
+                val task = call.receiveAndValidate<TaskUpdate>()
                 sql {
                     TaskTable.update({ TaskTable.code eq code }) {
                         if (task.title != null) it[title] = task.title!!
@@ -69,7 +64,7 @@ class TaskController(application: Application) {
 
             delete("$ROOT{code}") {
                 val code = call.parameters["code"]
-                    ?: throw ValidateDtoException("Required path variable \"code\", but not present")
+                    ?: throw IllegalStateException("Required path variable \"code\", but not present")
                 sql { TaskTable.deleteWhere { TaskTable.code eq code } }
             }
 

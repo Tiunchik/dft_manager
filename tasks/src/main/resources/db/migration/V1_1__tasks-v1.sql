@@ -1,11 +1,5 @@
---liquibase formatted sql
+drop table if exists tasks;
 
--- changeset DL:tasks-v0(generated)
-BEGIN;
-drop table tasks;
-COMMIT;
-
--- changeset DL:tasks-v1(generated)
 CREATE TABLE IF NOT EXISTS tasks
 (
     code        VARCHAR(10) PRIMARY KEY,
@@ -23,6 +17,5 @@ CREATE TABLE IF NOT EXISTS tasks
 ALTER TABLE tasks
     ADD CONSTRAINT tasks_code_unique UNIQUE (code);
 
--- changeset DL:tasks-v2(generated)
 ALTER TABLE tasks ALTER COLUMN created_at TYPE TIMESTAMP, ALTER COLUMN created_at SET DEFAULT (CURRENT_TIMESTAMP);
 ALTER TABLE tasks ALTER COLUMN updated_at TYPE TIMESTAMP, ALTER COLUMN updated_at SET DEFAULT (CURRENT_TIMESTAMP);

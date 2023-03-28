@@ -2,6 +2,8 @@ package solutions.dft
 
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
+import org.flywaydb.core.internal.database.DatabaseFactory
+import org.koin.core.KoinApplication.Companion.init
 import solutions.dft.config.configureKoin
 import solutions.dft.config.configureMonitoring
 import solutions.dft.config.configureOpenApi

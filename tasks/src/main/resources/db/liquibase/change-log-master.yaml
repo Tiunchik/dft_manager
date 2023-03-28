@@ -1,4 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: "./changeLog/tasks-v1.sql"
-      relativeToChangelogFile: true

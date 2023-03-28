@@ -9,10 +9,8 @@
 - [low] Перетрахать всё liqui на FlyWay
 - [low] авторизация - на фильтрах или новый слой абстракции
 - [low] code-generation для чего-то связанно с БД - уменьшить кол-во представлений.
--
-  - exposed(Table, Dao)
--
-  - liquibase(sql || any type of config)
+- - exposed(Table, Dao)
+- - liquibase(sql || any type of config)
 - [low] завести разными docker-compose под разные случаи - например какие именно?
 
 

@@ -67,6 +67,7 @@ fun DependencyHandlerScope.ktorInstall() {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-config-yaml:$ktor_version") //For using yaml file for configuration
+    implementation("io.ktor:ktor-server-status-pages:$ktor_version")
 }
 fun DependencyHandlerScope.exposedInstall() {
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")

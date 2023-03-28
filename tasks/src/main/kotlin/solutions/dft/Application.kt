@@ -2,12 +2,7 @@ package solutions.dft
 
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
-import org.flywaydb.core.internal.database.DatabaseFactory
-import org.koin.core.KoinApplication.Companion.init
-import solutions.dft.config.configureKoin
-import solutions.dft.config.configureMonitoring
-import solutions.dft.config.configureOpenApi
-import solutions.dft.config.configureSerialization
+import solutions.dft.config.*
 
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
@@ -17,6 +12,7 @@ fun Application.main() {
     configureOpenApi()
     configureMonitoring()
     configureSerialization()
+    configureExceptionHandleHTTP()
 
     printRequiredMigration()
     println("http://127.0.0.1:8080/tasks/")

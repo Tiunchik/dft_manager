@@ -9,10 +9,8 @@
 - [low] Перетрахать всё liqui на FlyWay
 - [low] авторизация - на фильтрах или новый слой абстракции
 - [low] code-generation для чего-то связанно с БД - уменьшить кол-во представлений.
--
-  - exposed(Table, Dao)
--
-  - liquibase(sql || any type of config)
+- - exposed(Table, Dao)
+- - liquibase(sql || any type of config)
 - [low] завести разными docker-compose под разные случаи - например какие именно?
 
 
@@ -21,8 +19,7 @@
 
 
 - DONE [high] Писать Exception в HTTP response, а молчать о них.
--
-  - https://blog.devgenius.io/ktor-rest-apis-exception-handling-1440eac4d06d
+- - https://blog.devgenius.io/ktor-rest-apis-exception-handling-1440eac4d06d
 - DONE (Макс) Валидация полей DTO ~~на Делегатах!~~ либа Valiktor
 - DONE (Даня) для Таски - Миграция, CRUD, COIN, все поля для Task реализовать реально.
 - DONE (Даня) ? model mapper? 🤔 - MapStructure

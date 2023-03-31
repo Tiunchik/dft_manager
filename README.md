@@ -4,20 +4,29 @@
 
 - (Даня) mapping DTO -> UpdateStatement for UPD
 
-- прикрутить запуск liquibase/FlyWay с запуском приложухи.
-  (https://www.liquibase.com/blog/3-ways-to-run-liquibase)
-- [low] Перетрахать всё liqui на FlyWay
-- [low] авторизация - на фильтрах или новый слой абстракции
-- [low] code-generation для чего-то связанно с БД - уменьшить кол-во представлений.
-- - exposed(Table, Dao)
-- - liquibase(sql || any type of config)
-- [low] завести разными docker-compose под разные случаи - например какие именно?
+- продумать модель User
+- сделать миграцию к модели
+- прикрутить к полям валидацию и сделать базовую
+- сделать REST на модель User (+ mapstruct)
 
+- [low] авторизация - на фильтрах или новый слой абстракции
+- прикрутить авторизацию на без пользока, JWT токены
+
+- прикрутить кафку как shared либу, попробовать автозапуск через KOIN для shared либы
+- продумать систему синхронных/асинхронных сообщений через кафку между сервисами, дополнить shared либу
+- вынести общие модели в отдельную shared либу (юзер, таска и т.д.)
+
+- посмотреть возможность работы с разными файлами пропертей через application.propertiesOrNull, возможно вынести проверти для кафки или базы в отдельный файлы
+
+- [low] code-generation для чего-то связанно с БД - уменьшить кол-во представлений.
+- exposed(Table, Dao)
+- [low] завести разными docker-compose под разные случаи - например какие именно?
 
 - Бизнес требования:
   https://docs.google.com/document/d/1bvyp0zaBuiniDND4tyG9WmayvYmkB_i1Z73vILyyYwc/edit?usp=sharing
 
-
+- DONE [low] Перетрахать всё liqui на FlyWay
+- DONE прикрутить запуск liquibase/FlyWay с запуском приложухи.
 - DONE [high] Писать Exception в HTTP response, а молчать о них.
 - - https://blog.devgenius.io/ktor-rest-apis-exception-handling-1440eac4d06d
 - DONE (Макс) Валидация полей DTO ~~на Делегатах!~~ либа Valiktor

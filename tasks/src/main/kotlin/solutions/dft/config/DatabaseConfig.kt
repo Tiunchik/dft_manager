@@ -47,6 +47,6 @@ class DatabaseFactory(val application: Application) {
     }
 
     companion object {
-        fun configFlyWayAndDB(application: Application) = DatabaseFactory(application).connectAndMigrate()
+        fun configFlyWayAndCreateDataSource(application: Application) = DatabaseFactory(application).connectAndMigrate()
     }
 }

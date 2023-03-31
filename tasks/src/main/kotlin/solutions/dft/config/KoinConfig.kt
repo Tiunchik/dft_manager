@@ -12,7 +12,7 @@ fun Application.configureKoin(){
     install(Koin) {
         slf4jLogger(Level.DEBUG)
         val dataBase = module {
-            single(createdAtStart = true) { DatabaseFactory.configFlyWayAndDB(this@configureKoin) }
+            single(createdAtStart = true) { DatabaseFactory.configFlyWayAndCreateDataSource(this@configureKoin) }
         }
         val appModule = module {
             single { this@configureKoin }

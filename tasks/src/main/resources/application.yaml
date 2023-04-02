@@ -13,4 +13,5 @@ ktor:
     isAutoCommit: false
     transactionIsolation: "TRANSACTION_READ_COMMITTED"
     username: "postgres"
+#    password: "postgres"
     password: "mysecretpassword"

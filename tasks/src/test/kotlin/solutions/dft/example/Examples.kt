@@ -1,10 +1,11 @@
-package solutions.dft
+package solutions.dft.example
 
 import io.ktor.server.application.*
 import org.koin.core.annotation.Single
 import org.koin.ktor.ext.get
 import solutions.dft.repository.TaskConverter
 import solutions.dft.repository.TaskEntity
+import solutions.dft.sql
 
 @Single
 class Examples(application: Application) {

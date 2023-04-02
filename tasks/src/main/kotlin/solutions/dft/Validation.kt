@@ -34,3 +34,6 @@ inline fun <E> validation(obj: E, block: Validator<E>.(E) -> Unit) = with(Valida
 suspend inline fun <reified T : Validatable> ApplicationCall.receiveAndValidate(): T =
     this.receive<T>().also { it.validate() }
 
+fun ApplicationCall.getParameter(name: String): String = this.parameters[name]
+    ?: throw IllegalStateException("Missing required path parameter \"$name\".")
+

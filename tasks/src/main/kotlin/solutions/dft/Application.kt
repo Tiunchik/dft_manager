@@ -13,8 +13,7 @@ fun Application.main() {
     configureMonitoring()
     configureSerialization()
     configureExceptionHandleHTTP()
+    configureMigrationPrinter()
 
-    printRequiredMigration()
-    println("http://127.0.0.1:8080/tasks/")
 }
 

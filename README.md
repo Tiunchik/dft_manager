@@ -2,7 +2,7 @@
 
 - (Макс) [low] сделать интеграцию Dockerfile с Gradle task
 
-- (Даня) mapping DTO -> UpdateStatement for UPD
+- (Даня) task change history (commit & changes)
 
 - продумать модель User
 - сделать миграцию к модели
@@ -18,8 +18,18 @@
 
 - посмотреть возможность работы с разными файлами пропертей через application.propertiesOrNull, возможно вынести проверти для кафки или базы в отдельный файлы
 
+- [low] сделать автоматическую сборку списка всех exposed Table в 1 лист -> MigrationPrinter
+- - ??? Koin beans
+- - - проблема в code-generation, он из аннотации пытается создать new Object, а не взять уже INSTANCE
+- - ??? авто-подтягиваемая статика?
+- - ??? ktor event + static init ? - боюсь что, статика создаётся слишком рано что бы НЕ ПАДАТЬ на NPE
+- - ??? java runtime reflection 
+- - - https://www.baeldung.com/reflections-library (у меня не работало...)
 - [low] code-generation для чего-то связанно с БД - уменьшить кол-во представлений.
 - exposed(Table, Dao)
+- [low] mapping DTO -> UpdateStatement for UPD
+- - https://stackoverflow.com/questions/50339016/kotlin-exposed-dsl-query-mapping
+- - https://medium.com/@keyridan/kotlin-reflection-and-prepared-statement-tutorial-b2c5ad1411dd
 - [low] завести разными docker-compose под разные случаи - например какие именно?
 
 - Бизнес требования:
@@ -31,6 +41,6 @@
 - - https://blog.devgenius.io/ktor-rest-apis-exception-handling-1440eac4d06d
 - DONE (Макс) Валидация полей DTO ~~на Делегатах!~~ либа Valiktor
 - DONE (Даня) для Таски - Миграция, CRUD, COIN, все поля для Task реализовать реально.
-- DONE (Даня) ? model mapper? 🤔 - MapStructure
+- DONE (Даня) ? model mapper? 🤔 - MapStructure https://www.baeldung.com/mapstruct
 - DONE (Макс) прикрутить COIN
 - DONE (Макс) [low] прикрутить Ktor yaml config 

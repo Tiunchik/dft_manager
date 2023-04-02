@@ -32,18 +32,18 @@ class DatabaseFactory(val application: Application) {
     }
 
     private fun hikariDataSource(): HikariDataSource {
-        val properties = application.environment.config.config("ktor.database")
-        val config = HikariConfig().apply {
-            driverClassName = properties.propertyOrNull("driverClassName")?.getString()
-            jdbcUrl = properties.propertyOrNull("jdbcUrl")?.getString()
-            maximumPoolSize = properties.propertyOrNull("maximumPoolSize")?.getString()?.toInt() ?: 10
-            isAutoCommit = properties.propertyOrNull("isAutoCommit")?.getString() == "true"
-            transactionIsolation = properties.propertyOrNull("transactionIsolation")?.getString()
-            username = properties.propertyOrNull("username")?.getString()
-            password = properties.propertyOrNull("password")?.getString()
-            validate()
-        }
-        return HikariDataSource(config)
+        return application.environment.config.config("ktor.database").let {
+            HikariConfig().apply {
+                driverClassName = it.propertyOrNull("driverClassName")?.getString()
+                jdbcUrl = it.propertyOrNull("jdbcUrl")?.getString()
+                maximumPoolSize = it.propertyOrNull("maximumPoolSize")?.getString()?.toInt() ?: 10
+                isAutoCommit = it.propertyOrNull("isAutoCommit")?.getString() == "true"
+                transactionIsolation = it.propertyOrNull("transactionIsolation")?.getString()
+                username = it.propertyOrNull("username")?.getString()
+                password = it.propertyOrNull("password")?.getString()
+                validate()
+            }
+        }.let(::HikariDataSource)
     }
 
     companion object {
